@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="bg-gray-50 shadow-lg">
+    <div class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:items-center">
+        <div class="mx-auto max-w-xl text-center">
+            <h1 class="text-3xl font-extrabold sm:text-5xl tracking-wider">
+                Understand User Flow.
+                <strong class="font-extrabold text-red-700 sm:block"> Increase Conversion. </strong>
+            </h1>
+
+            <p class="mt-4 sm:text-xl/relaxed">
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt illo tenetur fuga ducimus
+                numquam ea!
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="container mx-auto px-4 py-8 mt-14">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {% for post in posts %}
+        <article class="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
+            <img alt="{{ post.title }}" src="{{ post.image }}" class="h-56 w-full object-cover" />
+
+            <div class="bg-white p-4 sm:p-6">
+                <time datetime="{{ post.created_at }}" class="block text-xs text-gray-500">
+                    {{ post.created_at|date:"jS M Y" }}
+                </time>
+
+                <a href="{% url 'detail' post.id %}">
+                    <h3 class="mt-0.5 text-lg text-gray-900">{{ post.title }}</h3>
+                </a>
+
+                <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                    {{ post.content|truncatewords:10 }}
+                </p>
+            </div>
+        </article>
+
+        {% endfor %}
+    </div>
+
+    <div class="mt-8">
+        <nav class="flex justify-center">
+            <ul class="inline-flex items-center -space-x-px">
+                {% if posts.has_previous %}
+                <li>
+                    <a href="?page={{ posts.previous_page_number }}"
+                        class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+                </li>
+                {% endif %}
+                {% for num in posts.paginator.page_range %}
+                {% if posts.number == num %}
+                <li>
+                    <a href="?page={{ num }}"
+                        class="px-3 py-2 leading-tight text-blue-600 bg-blue-50 border border-gray-300">{{ num }}</a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="?page={{ num }}"
+                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{
+                        num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if posts.has_next %}
+                <li>
+                    <a href="?page={{ posts.next_page_number }}"
+                        class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}
