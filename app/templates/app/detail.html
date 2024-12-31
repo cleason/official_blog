@@ -1,41 +1,75 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="bg-gray-50 shadow-lg">
-    <div class="mx-auto max-w-screen-lg px-4 py-16">
-        <article>
-            <header class="mb-6">
-                <h1 class="text-3xl font-extrabold text-gray-900 sm:text-5xl">
-                    {{ post.title }}
-                </h1>
-                <p class="mt-2 text-sm text-gray-500">
-                    Published on {{ post.created_at|date:"jS M Y" }}
-                </p>
+<header class="bg-gray-100 py-10 border-b mb-4">
+    <div class="container mx-auto">
+        <div class="text-center my-5">
+            <h1 class="text-4xl font-bold text-gray-800">{{ post.title|upper }}</h1>
+            <p class="text-lg text-gray-600 mt-2">{{ post.subtitle }}</p>
+        </div>
+    </div>
+</header>
+
+<!-- Page content -->
+<div class="container mx-auto mt-5">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <div class="lg:w-3/4">
+            <!-- Post header -->
+            <header class="mb-4">
+                <!-- Post meta content -->
+                <p class="text-sm text-gray-500 mb-2">Posté par: {{ post.author }} - le {{ post.created_at|date:"d m Y" }}</p>
             </header>
 
-            {% if post.image_url %}
-            <div class="mb-8">
-                <img
-                    src="{{ post.image_url }}"
-                    alt="{{ post.title }}"
-                    class="rounded-lg shadow-lg w-full"
-                />
-            </div>
-            {% endif %}
+            <!-- Post content -->
+            <article>
+                <!-- Preview image figure -->
+                {% if post.image %}
+                <figure class="mb-5">
+                    <img class="w-full rounded-lg shadow-md" src="{{ post.image.url }}" alt="Post image" />
+                </figure>
+                {% endif %}
 
-            <div class="prose prose-lg max-w-none text-gray-700">
-                {{ post.content|safe }}
-            </div>
-        </article>
+                <!-- Post content -->
+                <section class="mb-5 mt-5">
+                    <p class="text-lg text-gray-700 leading-relaxed">{{ post.content|safe|linebreaks }}</p>
+                </section>
 
-        <footer class="mt-12">
-            <a
-                href="{% url 'index' %}"
-                class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-                Back to Home
-            </a>
-        </footer>
+            <!-- Comments section -->
+            <section class="mb-5 mt-5">
+                <div class="bg-gray-100 p-5 rounded-lg shadow-md">
+                    <!-- Comment form -->
+                    <form class="mb-6" method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button
+                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
+                            type="submit">
+                            Envoyer
+                        </button>
+                    </form>
+
+                    <!-- Comment list -->
+                    {% for testimonial in testimonials %}
+                    <div class="flex items-start gap-4 mb-4">
+                        <!-- Commenter profile picture -->
+                        <div class="flex-shrink-0">
+                            <img class="rounded-full w-12 h-12"
+                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="Commenter profile picture" />
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">{{ testimonial.name }}</p>
+                            <p class="text-sm text-gray-700">{{ testimonial.content }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-gray-500">Aucun commentaire encore.</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
     </div>
-</section>
+</div>
+
+
+
 {% endblock %}

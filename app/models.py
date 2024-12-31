@@ -1,7 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Modèle pour les articles de blog
+
+
+class SiteSettings(models.Model):
+    logo = models.ImageField(upload_to='logos/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Configuration du site"
 
 # Définition des statuts possibles pour un article
 DRAFT = 'draft'
@@ -80,7 +88,6 @@ class AboutUs(models.Model):
 class Testimonial(models.Model):
     name = models.CharField(max_length=50, verbose_name="Nom")
     content = models.TextField(verbose_name="Contenu")
-    image = models.ImageField(upload_to='testimonials/', blank=True, verbose_name="Image")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
     is_active = models.BooleanField(default=True, verbose_name="Actif")
 
@@ -95,7 +102,8 @@ class Testimonial(models.Model):
 
 # Models pour contactez-nous
 class ContactForm(models.Model):
-    name = models.CharField(max_length=50, verbose_name="Nom")
+    first_name = models.CharField(max_length=50, verbose_name="Nom de famille")
+    last_name = models.CharField(max_length=50, verbose_name="Prénom")
     email = models.EmailField(verbose_name="Adresse e-mail")
     subject = models.CharField(max_length=100, verbose_name="Objet")
     message = models.TextField(verbose_name="Message")
@@ -109,3 +117,12 @@ class ContactForm(models.Model):
 
     def __str__(self):
         return self.name
+
+class PageContent(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Titre")
+    subtitle = models.CharField(max_length=255, verbose_name="Sous-titre")
+    content = models.TextField(verbose_name="Contenu")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
+
+    def __str__(self):
+        return self.title

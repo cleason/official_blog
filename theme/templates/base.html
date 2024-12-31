@@ -17,11 +17,13 @@
 		<div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
 			<div class="flex h-16 items-center justify-between">
 				<div class="md:flex md:items-center md:gap-12">
-					<a class="block text-teal-600" href="#">
-						<span class="sr-only">Home</span>
-						<svg class="h-8" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="..." fill="currentColor" />
-						</svg>
+					<a class="block" href="{% url 'index' %}">
+						<span class="sr-only">Accueil</span>
+						{% if site_settings.logo %}
+							<img src="{{ site_settings.logo.url }}" alt="Logo" class="h-8">
+						{% else %}
+							<p>Logo non défini</p>
+						{% endif %}
 					</a>
 				</div>
 
@@ -30,19 +32,19 @@
 						<ul class="flex items-center gap-6 text-lg">
 							<!-- Augmentation de la taille de la police -->
 							<li>
-								<a class="transition hover:text-gray-500/75" href="{% url 'accueil' %}"></a>
+								<a class="transition hover:text-gray-500/75" href="{% url 'index' %}">
 									Accueil
 								</a>
 							</li>
 
 							<li>
-								<a class="transition hover:text-gray-500/75" href="#">
+								<a class="transition hover:text-gray-500/75" href="{% url 'a_propos' %}">
 									A propos
 								</a>
 							</li>
 
 							<li>
-								<a class="transition hover:text-gray-500/75" href="#">
+								<a class="transition hover:text-gray-500/75" href="{% url 'contact' %}">
 									Contact
 								</a>
 							</li>
@@ -52,6 +54,14 @@
 			</div>
 		</div>
 	</header>
+
+{% if announcement %}
+    <div class="mt-4 p-6 bg-red-700 border border-red-800 text-white rounded overflow-hidden">
+        <div class="whitespace-nowrap animate-marquee">
+            <p>{{ announcement.message }}</p>
+        </div>
+    </div>
+{% endif %}
 
 	{% block content %} 
 	{% endblock content %}

@@ -46,6 +46,15 @@ module.exports = {
             fontFamily: {
                 roboto: ['Roboto', 'sans-serif'],
             },
+            animation: {
+                marquee: 'marquee 50s linear infinite', // Animation du texte défilant
+            },
+            keyframes: {
+                marquee: {
+                    '0%': { transform: 'translateX(100%)' },
+                    '100%': { transform: 'translateX(-100%)' },
+                },
+            },
         },
     },
     plugins: [
