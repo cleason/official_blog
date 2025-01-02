@@ -7,8 +7,7 @@ class TestimonialForm(forms.ModelForm):
         fields = ['name', 'content']
         widgets = {
             'name': forms.TextInput(attrs={
-            'class': 'w-full rounded border-gray-300 py-6 px-6',
-            'placeholder': 'Votre nom'
+            'class': 'w-full rounded border-gray-300 py-6 px-6 mb-4'
             }),
             'content': forms.Textarea(attrs={
             'class': 'w-full rounded border-gray-300 py-2 px-4',

@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-
 class SiteSettings(models.Model):
     logo = models.ImageField(upload_to='logos/')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -21,6 +20,7 @@ STATUS_CHOICES = [
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=255, verbose_name="Titre")
+    slug = models.SlugField(max_length=255, unique=True, verbose_name="Slug")
     content = models.TextField(verbose_name="Contenu")
     image = models.ImageField(upload_to='blog/%Y/%m/%d/', blank=True, verbose_name="Image")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog_posts", verbose_name="Auteur")
@@ -119,10 +119,10 @@ class ContactForm(models.Model):
         return self.name
 
 class PageContent(models.Model):
-    title = models.CharField(max_length=255, verbose_name="Titre")
-    subtitle = models.CharField(max_length=255, verbose_name="Sous-titre")
-    content = models.TextField(verbose_name="Contenu")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
+    title = models.CharField(max_length=255, verbose_name="Titre", blank=True)
+    subtitle = models.CharField(max_length=255, verbose_name="Sous-titre", blank=True)
+    content = models.TextField(verbose_name="Contenu", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création", blank=True)
 
     def __str__(self):
         return self.title

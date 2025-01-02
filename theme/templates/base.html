@@ -18,8 +18,8 @@
 			<div class="flex h-16 items-center justify-between">
 				<div class="md:flex md:items-center md:gap-12">
 					<a class="block" href="{% url 'index' %}">
-						<span class="sr-only">Accueil</span>
 						{% if site_settings.logo %}
+						<p>URL de l'image : {{ site_settings.logo.url }}</p>
 							<img src="{{ site_settings.logo.url }}" alt="Logo" class="h-8">
 						{% else %}
 							<p>Logo non défini</p>
@@ -85,7 +85,7 @@
 							id="email" type="email" placeholder="john@doe.com" />
 
 						<button
-							class="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700">
+							class="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-emerald-700 px-5 py-3 text-sm font-medium text-white transition hover:bg-emerald-950">
 							Subscribe
 						</button>
 					</div>
@@ -99,15 +99,15 @@
 
 			<ul class="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
 				<li>
-					<a class="text-gray-700 transition hover:text-gray-700/75" href="#"> About </a>
+					<a class="text-gray-700 transition hover:text-gray-700/75" href="{% url 'index' %}"> Accueil </a>
 				</li>
 
 				<li>
-					<a class="text-gray-700 transition hover:text-gray-700/75" href="#"> Careers </a>
+					<a class="text-gray-700 transition hover:text-gray-700/75" href="{% url 'a_propos' %}"> A propos </a>
 				</li>
 
 				<li>
-					<a class="text-gray-700 transition hover:text-gray-700/75" href="#"> Services </a>
+					<a class="text-gray-700 transition hover:text-gray-700/75" href="{% url 'contact' %}"> Contact </a>
 				</li>
 			</ul>
 

@@ -1,72 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<header class="bg-gray-100 py-10 border-b mb-4">
+<header class="bg-gray-100 py-32 border-b mb-4 shadow-lg">
     <div class="container mx-auto">
         <div class="text-center my-5">
-            <h1 class="text-4xl font-bold text-gray-800">{{ post.title|upper }}</h1>
+            <h1 class="text-4xl font-bold text-600">{{ post.title|upper }}</h1>
             <p class="text-lg text-gray-600 mt-2">{{ post.subtitle }}</p>
         </div>
     </div>
 </header>
 
 <!-- Page content -->
-<div class="container mx-auto mt-5">
-    <div class="flex flex-col lg:flex-row gap-8">
-        <div class="lg:w-3/4">
-            <!-- Post header -->
-            <header class="mb-4">
-                <!-- Post meta content -->
-                <p class="text-sm text-gray-500 mb-2">Posté par: {{ post.author }} - le {{ post.created_at|date:"d m Y" }}</p>
-            </header>
+<div class="container mx-auto mt-10 flex justify-center">
+    <div class="w-full lg:w-3/4">
+        <!-- Post header -->
+        <header class="mb-4">
+            <!-- Post meta content -->
+            <h5 class="text-sm text-gray-500">
+                Posté par
+                <span>{{ post.author|capfirst }}:
+                    <time datetime="{{ post.created_at }}">
+                        {{ post.created_at|date:"j M Y" }}
+                    </time>
+                </span>
+            </h5>
+        </header>
+
+        <!-- Post content -->
+        <article>
+            <!-- Preview image figure -->
+            {% if post.image %}
+            <figure class="mb-5">
+                <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg shadow-md overflow-hidden">
+                    <img class="w-full h-full object-cover" src="{{ post.image.url }}" alt="Post image">
+                </div>
+            </figure>
+            {% endif %}
 
             <!-- Post content -->
-            <article>
-                <!-- Preview image figure -->
-                {% if post.image %}
-                <figure class="mb-5">
-                    <img class="w-full rounded-lg shadow-md" src="{{ post.image.url }}" alt="Post image" />
-                </figure>
-                {% endif %}
-
-                <!-- Post content -->
-                <section class="mb-5 mt-5">
-                    <p class="text-lg text-gray-700 leading-relaxed">{{ post.content|safe|linebreaks }}</p>
-                </section>
-
-            <!-- Comments section -->
-            <section class="mb-5 mt-5">
-                <div class="bg-gray-100 p-5 rounded-lg shadow-md">
-                    <!-- Comment form -->
-                    <form class="mb-6" method="POST">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button
-                            class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-200"
-                            type="submit">
-                            Envoyer
-                        </button>
-                    </form>
-
-                    <!-- Comment list -->
-                    {% for testimonial in testimonials %}
-                    <div class="flex items-start gap-4 mb-4">
-                        <!-- Commenter profile picture -->
-                        <div class="flex-shrink-0">
-                            <img class="rounded-full w-12 h-12"
-                                src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="Commenter profile picture" />
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-gray-800">{{ testimonial.name }}</p>
-                            <p class="text-sm text-gray-700">{{ testimonial.content }}</p>
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p class="text-gray-500">Aucun commentaire encore.</p>
-                    {% endfor %}
-                </div>
+            <section class="mb-40 mt-20">
+                <p class="text-lg text-gray-700 leading-relaxed text-center">{{ post.content|safe|linebreaks }}</p>
             </section>
-        </div>
+        </article>
+
+        <!-- Comments section -->
+        <section class="mb-36 mt-5">
+            <div class="bg-gray-100 p-5 rounded-lg shadow-md">
+                <!-- Comment form -->
+                <form class="mb-6" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button
+                        class="w-full bg-emerald-700 text-white py-2 px-4 rounded-lg hover:bg-emerald-900 transition duration-200"
+                        type="submit">
+                        Envoyer
+                    </button>
+                </form>
+
+                <!-- Comment list -->
+                {% for testimonial in testimonials %}
+                <div class="flex items-start gap-4 mb-4">
+                    <!-- Commenter profile picture -->
+                    <div class="flex-shrink-0">
+                        <img class="rounded-full w-12 h-12"
+                            src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="Commenter profile picture" />
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">{{ testimonial.name }}</p>
+                        <p class="text-sm text-gray-700">{{ testimonial.content }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-gray-500 text-center">Aucun commentaire encore.</p>
+                {% endfor %}
+            </div>
+        </section>
     </div>
 </div>
 
